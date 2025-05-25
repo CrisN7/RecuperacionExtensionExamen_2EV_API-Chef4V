@@ -24,25 +24,25 @@ class Recipe
     /**
      * @var Collection<int, Ingredient>
      */
-    #[ORM\OneToMany(targetEntity: Ingredient::class, mappedBy: 'recipe')]
+    #[ORM\OneToMany(targetEntity: Ingredient::class, mappedBy: 'recipe', cascade: ['persist'])]
     private Collection $ingredients;
 
     /**
      * @var Collection<int, Step>
      */
-    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'recipe')]
+    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'recipe', cascade: ['persist'])]
     private Collection $steps;
 
     /**
      * @var Collection<int, Rating>
      */
-    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'recipe')]
+    #[ORM\OneToMany(targetEntity: Rating::class, mappedBy: 'recipe', cascade: ['persist'])]
     private Collection $rating;
 
     /**
      * @var Collection<int, RecipesNutrients>
      */
-    #[ORM\OneToMany(targetEntity: RecipesNutrients::class, mappedBy: 'recipe')]
+    #[ORM\OneToMany(targetEntity: RecipesNutrients::class, mappedBy: 'recipe', cascade: ['persist'])]
     private Collection $nutrients;
 
     public function __construct()
