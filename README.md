@@ -1,12 +1,8 @@
 # Recuperacion 4V CHEF
 Este es un proyecto desarrollado con Symfony.
 
-## Requisitos
+⚠️ **IMPORTANTE:** Importar mi archivo Recuperacion-4VChef_WithVotes.yaml en Postman, porque hice cambios en alguna propiedad.
 
-- PHP 8.1+
-- Composer
-- Symfony CLI (opcional)
-- Base de datos (MySQL/PostgreSQL)
 
 ## Instalación
 
