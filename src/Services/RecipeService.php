@@ -29,36 +29,36 @@ class RecipeService
         $recipes = $this->entityManager->getRepository(Recipe::class)->findAll();
         
         return array_map(function (Recipe $recipe) {
-        return new RecipeDTO(
-            id: $recipe->getId(),
-            title: $recipe->getTitle(),
-            numberDinner: $recipe->getNumberDinner(),
-            ingredients: array_map(fn ($ingredient) => new IngredientNewDTO(
-                name: $ingredient->getName(),
-                quantity: $ingredient->getQuantity(),
-                unit: $ingredient->getUnit()
-            ), $recipe->getIngredients()->toArray()),
-            steps: array_map(fn ($step) => new StepNewDTO(
-                order: $step->getOrderNumber(),
-                description: $step->getDescription()
-            ), $recipe->getSteps()->toArray()),
-            nutrients: array_map(fn ($recipeNutrient) => new RecipeNutrientsDTO(
-                idNutrientType: $recipeNutrient->getType()->getId(),
-                nutrientType: new NutrientTypeDTO(
-                    id: $recipeNutrient->getType()->getId(),
-                    name: $recipeNutrient->getType()->getName(),
-                    unit: $recipeNutrient->getType()->getUnit()
+            return new RecipeDTO(
+                id: $recipe->getId(),
+                title: $recipe->getTitle(),
+                numberDinner: $recipe->getNumberDinner(),
+                ingredients: array_map(fn ($ingredient) => new IngredientNewDTO(
+                    name: $ingredient->getName(),
+                    quantity: $ingredient->getQuantity(),
+                    unit: $ingredient->getUnit()
+                ), $recipe->getIngredients()->toArray()),
+                steps: array_map(fn ($step) => new StepNewDTO(
+                    order: $step->getOrderNumber(),
+                    description: $step->getDescription()
+                ), $recipe->getSteps()->toArray()),
+                nutrients: array_map(fn ($recipeNutrient) => new RecipeNutrientsDTO(
+                    idNutrientType: $recipeNutrient->getType()->getId(),
+                    nutrientType: new NutrientTypeDTO(
+                        id: $recipeNutrient->getType()->getId(),
+                        name: $recipeNutrient->getType()->getName(),
+                        unit: $recipeNutrient->getType()->getUnit()
+                    ),
+                    quantity: $recipeNutrient->getQuantity()
                 ),
-                quantity: $recipeNutrient->getQuantity()
-            ),
-            $recipe->getNutrients()->toArray()),
-            rating: new RatingDTO(
-                numberVotes: $recipe->getRating()->count(),
-                ratingAvg: $recipe->getRating()->count() > 0 ? 
-                    array_reduce($recipe->getRating()->toArray(), fn ($carry, $rating) => $carry + $rating->getValue(), 0) / $recipe->getRating()->count() : 0
-            )
-        );
-    }, $recipes);
+                $recipe->getNutrients()->toArray()),
+                rating: new RatingDTO(
+                    numberVotes: $recipe->getRating()->count(),
+                    ratingAvg: $recipe->getRating()->count() > 0 ? 
+                        array_reduce($recipe->getRating()->toArray(), fn ($carry, $rating) => $carry + $rating->getValue(), 0) / $recipe->getRating()->count() : 0
+                )
+            );
+        }, $recipes);
     }
 
 

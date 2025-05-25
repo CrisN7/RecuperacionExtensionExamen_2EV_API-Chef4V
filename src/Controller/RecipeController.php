@@ -21,7 +21,6 @@ final class RecipeController extends AbstractController
     public function getAllRecipesc(): JsonResponse
     {
         $recipes = $this->recipeService->getAllRecipes();
-        $this->logger->info("Recipes fetched: " . json_encode($recipes));
 
         if (empty($recipes)) {
             return $this->json([
@@ -30,16 +29,6 @@ final class RecipeController extends AbstractController
         }
 
         return $this->json($recipes, Response::HTTP_OK);
-
-        // return $this->json($this->recipeService->getAllRestaurtantTypes());
-
-        // if (!$isRecipeCreated) {
-        //     return $this->json([
-        //         'message' => 'Error creating recipe',
-        //     ], Response::HTTP_BAD_REQUEST);
-        // }
-
-        // return $this->json($isRecipeCreated, Response::HTTP_CREATED);
     }
 
     
