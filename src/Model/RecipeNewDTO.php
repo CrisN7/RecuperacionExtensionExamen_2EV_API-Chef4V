@@ -37,10 +37,6 @@ class RecipeNewDTO
         public array $steps,//de tipo StepNewDTO[]
 
         /** @var RecipeNutrientsNewDTO[] */
-        // #[Assert\Count(
-        //     min: 1,
-        //     minMessage: "Debe incluir al menos un ingrediente"
-        // )]
         #[Assert\Valid] 
         public array $nutrients//de tipo RecipeNutrientsNewDTO[]
     ){}

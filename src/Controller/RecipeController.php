@@ -16,8 +16,33 @@ final class RecipeController extends AbstractController
 
     public function __construct(private LoggerInterface $logger, private RecipeService $recipeService){
     }
+
+    #[Route('/recipes', name: 'app_recipe', methods: ['GET'], format: 'json')]
+    public function getAllRecipesc(): JsonResponse
+    {
+        $recipes = $this->recipeService->getAllRecipes();
+        $this->logger->info("Recipes fetched: " . json_encode($recipes));
+
+        if (empty($recipes)) {
+            return $this->json([
+                'message' => 'No se encontraron recetas.',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json($recipes, Response::HTTP_OK);
+
+        // return $this->json($this->recipeService->getAllRestaurtantTypes());
+
+        // if (!$isRecipeCreated) {
+        //     return $this->json([
+        //         'message' => 'Error creating recipe',
+        //     ], Response::HTTP_BAD_REQUEST);
+        // }
+
+        // return $this->json($isRecipeCreated, Response::HTTP_CREATED);
+    }
+
     
-    //POST: Crear nueva receta
     #[Route('/recipes', name: 'app_recipe_create', methods: ['POST'], format: 'json')]
     public function createRecipe(#[MapRequestPayload(validationFailedStatusCode: Response::HTTP_NOT_FOUND)] RecipeNewDTO $recipeNewDTO): JsonResponse //MapRequestPayload, indica que hay que utilizar un objeto RecipeNewDTO a mapear 
     {
