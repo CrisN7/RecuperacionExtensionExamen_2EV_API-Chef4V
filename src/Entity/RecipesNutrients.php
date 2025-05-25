@@ -2,27 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\IngredientRepository;
+use App\Repository\RecipesNutrientsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: IngredientRepository::class)]
-class Ingredient
+#[ORM\Entity(repositoryClass: RecipesNutrientsRepository::class)]
+class RecipesNutrients
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\ManyToOne(inversedBy: 'recipesNutrients')]
+    private ?NutrientType $type = null;
 
     #[ORM\Column]
     private ?float $quantity = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $unit = null;
-
-    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    #[ORM\ManyToOne(inversedBy: 'nutrients')]
     private ?Recipe $recipe = null;
 
     public function getId(): ?int
@@ -30,14 +27,14 @@ class Ingredient
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getType(): ?NutrientType
     {
-        return $this->name;
+        return $this->type;
     }
 
-    public function setName(string $name): static
+    public function setType(?NutrientType $type): static
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }
@@ -50,18 +47,6 @@ class Ingredient
     public function setQuantity(float $quantity): static
     {
         $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    public function getUnit(): ?string
-    {
-        return $this->unit;
-    }
-
-    public function setUnit(string $unit): static
-    {
-        $this->unit = $unit;
 
         return $this;
     }

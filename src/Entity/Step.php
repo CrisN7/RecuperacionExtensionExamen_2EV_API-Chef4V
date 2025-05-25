@@ -13,16 +13,30 @@ class Step
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $orderNumber = null;
+
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne]
-    private ?Receta $receta = null;
-
+    #[ORM\ManyToOne(inversedBy: 'steps')]
+    private ?Recipe $recipe = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getOrderNumber(): ?int
+    {
+        return $this->orderNumber;
+    }
+
+    public function setOrderNumber(int $orderNumber): static
+    {
+        $this->orderNumber = $orderNumber;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -37,16 +51,15 @@ class Step
         return $this;
     }
 
-    public function getReceta(): ?Receta
+    public function getRecipe(): ?Recipe
     {
-        return $this->receta;
+        return $this->recipe;
     }
 
-    public function setReceta(?Receta $receta): static
+    public function setRecipe(?Recipe $recipe): static
     {
-        $this->receta = $receta;
+        $this->recipe = $recipe;
 
         return $this;
     }
-
 }
