@@ -46,7 +46,7 @@ final class RecipeController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->json($isRecipeCreated, Response::HTTP_CREATED); //CRIS: segun el enunciado: Si todo es correcto se devuelve la información entera de la receta introducida.
+        return $this->json($isRecipeCreated, Response::HTTP_CREATED);
     }
 
 

@@ -107,7 +107,7 @@ class RecipeService
     }
 
 
-    public function createRecipe(RecipeNewDTO $recipeNewDTO): RecipeNewDTO//CRIS: segun el enunciado: porque en el enunciado dice: Si todo es correcto se devuelve la información entera de la receta introducida. 
+    public function createRecipe(RecipeNewDTO $recipeNewDTO): RecipeNewDTO
     {
 
         $recipe = new Recipe();
@@ -179,7 +179,6 @@ class RecipeService
             $this->entityManager->persist($r);
         }
 
-        //CRIS: Agregamos un nuevo objeto Rating con el nuevo voto si deseas guardar cada voto individualmente
         $newRating = new Rating();
         $newRating->setNumberVotes($totalVotes);
         $newRating->setRatingAvg($newAvg);
