@@ -48,6 +48,23 @@ final class RecipeController extends AbstractController
 
         return $this->json($isRecipeCreated, Response::HTTP_CREATED); //CRIS: segun el enunciado: Si todo es correcto se devuelve la información entera de la receta introducida.
     }
+
+
+    #[Route('/recipes/{recipeId}/rating/{rate}', name: 'app_recipe_vote', methods: ['POST'], format: 'json')]
+    public function voteRecipe(int $recipeId, int $rate): JsonResponse 
+    {
+        if ($this->recipeService->existsRecipeById($recipeId)){
+
+            if ($rate < 1 || $rate > 5) {
+                return $this->json(['error' => 'El voto debe ser un número entero entre 1 y 5 inclusives'], 400);
+            }
+
+            return $this->json($this->recipeService->voteRecipe($recipeId, $rate), Response::HTTP_OK);
+        }
+        else {
+            return $this->json(["error" => "No existe una receta con ID: " . $recipeId], 400);
+        }
+    }
     
 }
 

@@ -180,7 +180,7 @@ components:
     NutrientNew:
       type: object
       properties:
-        type-id:
+        idNutrientType:
           type: integer
           format: int64
           example: 10
@@ -197,7 +197,7 @@ components:
         title:
           type: string
           example: Tiramisu
-        number-diner:
+        numberDinner:
           type: integer
           format: int64
           example: 4
@@ -218,11 +218,11 @@ components:
     Rating:
       type: object
       properties:
-        number-votes:
+        numberVotes:
           type: integer
           format: int64
           example: 255
-        rating-avg:
+        ratingAvg:
           type: number
           example: 4.2
     RecipeNew:
@@ -231,7 +231,7 @@ components:
         title:
           type: string
           example: Tiramisu
-        number-diner:
+        numberDinner:
           type: integer
           format: int64
           example: 4

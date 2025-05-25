@@ -17,6 +17,7 @@ use App\Entity\Ingredient;
 use App\Entity\Step;
 use App\Entity\RecipesNutrients;
 use App\Entity\NutrientType;
+use App\Entity\Rating;
 
 class RecipeService
 {
@@ -55,7 +56,7 @@ class RecipeService
                 rating: new RatingDTO(
                     numberVotes: $recipe->getRating()->count(),
                     ratingAvg: $recipe->getRating()->count() > 0 ? 
-                        array_reduce($recipe->getRating()->toArray(), fn ($carry, $rating) => $carry + $rating->getValue(), 0) / $recipe->getRating()->count() : 0
+                        array_reduce($recipe->getRating()->toArray(), fn ($carry, $rating) => $carry + $rating->getRatingAvg(), 0) / $recipe->getRating()->count() : 0
                 )
             );
         }, $recipes);
@@ -104,6 +105,53 @@ class RecipeService
         $this->entityManager->flush();
 
         return $recipeNewDTO;
+    }
+
+    public function voteRecipe(int $recipeId, int $rate): bool
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->find($recipeId);
+
+        //Obtenemos la colección de ratings existentes
+        $ratings = $recipe->getRating();
+
+        //Calculamos el total de votos y suma total de puntuaciones previas
+        $totalVotes = $ratings->count();
+        $sumRates = 0;
+
+        foreach ($ratings as $r) {
+            $sumRates += $r->getRatingAvg();
+        }
+
+        //Añadimos el nuevo voto
+        $totalVotes += 1;
+        $sumRates += $rate;
+
+        $newAvg = $sumRates / $totalVotes;
+
+        //Actualizamos todos los objetos Rating existentes
+        foreach ($ratings as $r) {
+            $r->setNumberVotes($totalVotes);
+            $r->setRatingAvg($newAvg);
+            $this->entityManager->persist($r);
+        }
+
+        //CRIS: Agregamos un nuevo objeto Rating con el nuevo voto si deseas guardar cada voto individualmente
+        $newRating = new Rating();
+        $newRating->setNumberVotes($totalVotes);
+        $newRating->setRatingAvg($newAvg);
+        $newRating->setRecipe($recipe);
+        $this->entityManager->persist($newRating);
+
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+
+    public function existsRecipeById(int $recipeId): bool
+    {
+        $recipe = $this->entityManager->getRepository(Recipe::class)->find($recipeId);
+        return $recipe !== null;
     }
 
 }
