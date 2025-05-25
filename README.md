@@ -1,7 +1,7 @@
 # Recuperacion 4V CHEF
 Este es un proyecto desarrollado con Symfony.
 
-⚠️ **IMPORTANTE:** Importar mi archivo Recuperacion-4VChef_WithVotes.yaml en Postman, porque cambie el nombre de alguna propiedad.
+⚠️⚠️⚠️ **IMPORTANTE:** Usar mi archivo Recuperacion-4VChef_WithVotes.yaml en Postman, esta en la raíz del proyecto, hice cambios en los nombres de alguna propiedad.
 
 
 ## Instalación
