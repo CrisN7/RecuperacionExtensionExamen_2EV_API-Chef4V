@@ -18,12 +18,56 @@ use App\Entity\Step;
 use App\Entity\RecipesNutrients;
 use App\Entity\NutrientType;
 use App\Entity\Rating;
+use App\Services\NutrientTypesService;
 
 class RecipeService
 {
 
-    public function __construct(private LoggerInterface $logger, private EntityManagerInterface $entityManager)
-    {}
+    public function __construct(private LoggerInterface $logger, private EntityManagerInterface $entityManager, private NutrientTypesService $nutrientTypesService)
+    {
+
+        //Cargamos tipos de nutrientes si no existen
+        if (sizeof($this->nutrientTypesService->getAllNutrientTypes()) < 1) {
+            $nutrientTypes = [];
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Proteínas');
+            $newNutrientType->setUnit('gr');
+            $nutrientTypes[] = $newNutrientType;
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Carbohidratos');
+            $newNutrientType->setUnit('gr');
+            $nutrientTypes[] = $newNutrientType;
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Grasas');
+            $newNutrientType->setUnit('gr');
+            $nutrientTypes[] = $newNutrientType;
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Fibra');
+            $newNutrientType->setUnit('gr');
+            $nutrientTypes[] = $newNutrientType;
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Calorías');
+            $newNutrientType->setUnit('kcal');
+            $nutrientTypes[] = $newNutrientType;
+
+            $newNutrientType = new NutrientType();
+            $newNutrientType->setName('Azúcares');
+            $newNutrientType->setUnit('gr');
+            $nutrientTypes[] = $newNutrientType;
+
+            foreach ($nutrientTypes as $type) {
+                $this->entityManager->persist($type);
+            }
+
+            $this->entityManager->flush();
+        }
+
+    }
 
     public function getAllRecipes(): array
     {
